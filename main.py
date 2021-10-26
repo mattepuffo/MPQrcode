@@ -1,10 +1,20 @@
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# https://realpython.com/python-gui-tkinter/
+# https://www.geeksforgeeks.org/python-grid-method-in-tkinter/
 
-# Press the green button in the gutter to run the script.
+import tkinter as tk
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    root = tk.Tk()
+    root.title('MPQrcode')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    windowWidth = root.winfo_reqwidth()
+    windowHeight = root.winfo_reqheight()
+    positionRight = int(root.winfo_screenwidth() / 2 - windowWidth / 2)
+    positionDown = int(root.winfo_screenheight() / 2 - windowHeight / 2)
+    root.geometry("{}x{}+{}+{}".format(700, 700, positionRight, positionDown))
 
+    lblTitle = tk.Label(root, text="Scegli cosa inserire")
+    lblTitle.grid(row=0, column=0, sticky='W', pady=2)
+
+    root.resizable(0, 0)
+    root.mainloop()
