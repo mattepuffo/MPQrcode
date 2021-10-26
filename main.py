@@ -7,11 +7,13 @@ if __name__ == '__main__':
     root = tk.Tk()
     root.title('MPQrcode')
 
-    windowWidth = root.winfo_reqwidth()
-    windowHeight = root.winfo_reqheight()
-    positionRight = int(root.winfo_screenwidth() / 2 - windowWidth / 2)
-    positionDown = int(root.winfo_screenheight() / 2 - windowHeight / 2)
-    root.geometry("{}x{}+{}+{}".format(700, 700, positionRight, positionDown))
+    w = 700
+    h = 700
+    ws = root.winfo_screenwidth()
+    hs = root.winfo_screenheight()
+    x = (ws / 2) - (w / 2)
+    y = (hs / 2) - (h / 2)
+    root.geometry("{}x{}+{}+{}".format(w, h, int(x), int(y)))
 
     lblTitle = tk.Label(root, text="Scegli cosa inserire")
     lblTitle.grid(row=0, column=0, sticky='W', pady=2)
