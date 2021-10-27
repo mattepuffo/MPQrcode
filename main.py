@@ -2,10 +2,10 @@
 
 import sys
 
-from PySide6.QtGui import Qt
+from PySide6.QtGui import Qt, QScreen
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication
-from PySide6.QtCore import QFile, QIODevice, QCoreApplication
+from PySide6.QtCore import QFile, QCoreApplication
 
 if __name__ == "__main__":
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
@@ -14,17 +14,17 @@ if __name__ == "__main__":
 
     uiFileName = "main.ui"
     uiFile = QFile(uiFileName)
-    if not uiFile.open(QIODevice.ReadOnly):
-        print(f"Cannot open {uiFileName}: {uiFile.errorString()}")
-        sys.exit(-1)
 
     loader = QUiLoader()
     window = loader.load(uiFile)
     uiFile.close()
 
-    if not window:
-        print(loader.errorString())
-        sys.exit(-1)
-
     window.show()
+    center = QScreen.availableGeometry(QApplication.primaryScreen()).center()
+    geo = window.frameGeometry()
+    geo.moveCenter(center)
+    window.move(geo.topLeft())
+
+    window.btnCrea.clicked.connect(lambda: print("clicked"))
+
     sys.exit(app.exec())
