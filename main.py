@@ -6,6 +6,14 @@ from PySide6.QtGui import Qt, QScreen
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import QFile, QCoreApplication
+from create_qrcode import CreateQrcode
+
+def btn_clicked(testo):
+    if testo:
+        cqr = CreateQrcode()
+        cqr.create('ciao')
+    else:
+        print('no')
 
 if __name__ == "__main__":
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
@@ -25,6 +33,7 @@ if __name__ == "__main__":
     geo.moveCenter(center)
     window.move(geo.topLeft())
 
-    window.btnCrea.clicked.connect(lambda: print("clicked"))
+    window.txtTesto.setFocus()
+    window.btnCrea.clicked.connect(lambda: btn_clicked(window.txtTesto.text().strip()))
 
     sys.exit(app.exec())
