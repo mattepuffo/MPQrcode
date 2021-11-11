@@ -2,7 +2,7 @@ import qrcode
 
 class CreateQrcode:
 
-    def create(self, testo):
+    def create(self, testo, file):
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -13,5 +13,5 @@ class CreateQrcode:
         qr.make(fit=True)
 
         img = qr.make_image(fill_color="black", back_color="white")
-        img.save('/home/fermat/Scrivania/qrcode.png')
-        # return img
+        img.save(file)
+        return img

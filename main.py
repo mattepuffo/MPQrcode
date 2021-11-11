@@ -3,6 +3,8 @@
 import sys
 from pathlib import Path
 
+from PIL.ImageQt import ImageQt
+from PyQt6 import QtGui
 from PySide6.QtGui import Qt, QScreen
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QWidget, QFileDialog
@@ -29,17 +31,20 @@ class MainWindow(QWidget):
         self.window.txtTesto.setFocus()
         self.window.btnCrea.clicked.connect(lambda: self.saveFileDialog(self.window.txtTesto.text().strip()))
 
+    def setLblImage(self, img):
+        im = ImageQt(img).copy()
+        pixmap = QtGui.QPixmap.fromImage(im)
+        self.window.lblImage.setPixmap(pixmap)
+
     def saveFileDialog(self, testo):
         if testo:
-            cqr = CreateQrcode()
-            cqr.create('ciao')
-
             options = QFileDialog.Options()
-            options |= QFileDialog.DontUseNativeDialog
-            fileName, _ = QFileDialog.getSaveFileName(self, "Salva", str(Path.home()),
-                                                      "All Files (*);;Text Files (*.txt)", options=options)
+            fileName, _ = QFileDialog.getSaveFileName(self, "Salva", str(Path.home()), "PNG (*.png)", options=options)
+
             if fileName:
-                print(fileName)
+                cqr = CreateQrcode()
+                img = cqr.create(testo, fileName + ".png")
+                self.setLblImage(img)
 
 if __name__ == "__main__":
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
