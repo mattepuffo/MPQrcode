@@ -1,17 +1,16 @@
-# https://doc.qt.io/qtforpython/tutorials/basictutorial/uifiles.html
-
 import sys
 from pathlib import Path
 
 from PIL.ImageQt import ImageQt
 from PyQt6 import QtGui
-from PySide6.QtGui import Qt, QScreen
+from PySide6.QtGui import Qt, QScreen, QPixmap
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QWidget, QFileDialog
 from PySide6.QtCore import QFile, QCoreApplication
 from create_qrcode import CreateQrcode
 
 class MainWindow(QWidget):
+
     def __init__(self):
         super().__init__()
 
@@ -32,19 +31,25 @@ class MainWindow(QWidget):
         self.window.btnCrea.clicked.connect(lambda: self.saveFileDialog(self.window.txtTesto.text().strip()))
 
     def setLblImage(self, img):
-        im = ImageQt(img).copy()
-        pixmap = QtGui.QPixmap.fromImage(im)
+        imageQt = ImageQt(img)
+        qImage = QtGui.QImage(imageQt)
+        pixmap = QtGui.QPixmap.fromImage(qImage)
+        # self.window.lblImage.setPixmap(QPixmap('/home/fermat/Scrivania/img.png'))
         self.window.lblImage.setPixmap(pixmap)
 
     def saveFileDialog(self, testo):
-        if testo:
-            options = QFileDialog.Options()
-            fileName, _ = QFileDialog.getSaveFileName(self, "Salva", str(Path.home()), "PNG (*.png)", options=options)
+        cqr = CreateQrcode()
+        img = cqr.create(testo, "file.png")
+        self.setLblImage(img)
 
-            if fileName:
-                cqr = CreateQrcode()
-                img = cqr.create(testo, fileName + ".png")
-                self.setLblImage(img)
+        # if testo:
+        #     options = QFileDialog.Options()
+        #     fileName, _ = QFileDialog.getSaveFileName(self, "Salva", str(Path.home()), "PNG (*.png)", options=options)
+        #
+        #     if fileName:
+        #         cqr = CreateQrcode()
+        #         img = cqr.create(testo, fileName + ".png")
+        #         self.setLblImage(img)
 
 if __name__ == "__main__":
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)

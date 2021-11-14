@@ -75,6 +75,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="text">
+     <string>hhhhh</string>
+    </property>
    </widget>
    <widget class="QLabel" name="lblImage">
     <property name="geometry">
