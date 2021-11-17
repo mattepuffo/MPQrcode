@@ -1,3 +1,5 @@
+import tempfile
+
 import qrcode
 
 class CreateQrcode:
@@ -13,5 +15,5 @@ class CreateQrcode:
         qr.make(fit=True)
 
         img = qr.make_image(fill_color="black", back_color="white")
-        # img.save(file)
-        return img
+        img.save(tempfile.gettempdir() + '/' + file)
+        return tempfile.gettempdir() + '/' + file
